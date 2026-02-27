@@ -164,7 +164,15 @@ COPY . .
 CMD ["python", "app.py"]
 ```
 
-### 3. Add DockerHub secrets to your GitHub repository
+### 3. Add a `requirements.txt` to every service
+```text
+flask
+pytest
+```
+
+This file must exist at `services/<name>/requirements.txt` — the CI pipeline installs it before running tests.
+
+### 4. Add DockerHub secrets to your GitHub repository
 
 Go to **Settings → Secrets → Actions** and add:
 
@@ -173,11 +181,11 @@ Go to **Settings → Secrets → Actions** and add:
 | `DOCKERHUB_USERNAME` | Your DockerHub username |
 | `DOCKERHUB_TOKEN` | Your DockerHub access token |
 
-### 4. Push the workflow file
+### 5. Push the workflow file
 
 Place `.github/workflows/ci.yaml` in your repository. The pipeline triggers automatically on every push.
 
-### 5. Verify it's working
+### 6. Verify it's working
 
 Push a commit that changes only one service. In the **Actions** tab you should see:
 - `detect` runs and outputs a list with only that service
