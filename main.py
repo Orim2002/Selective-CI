@@ -55,7 +55,7 @@ def get_affected_services(changed_files: list, inverted_graph: dict) -> set:
         if split_directories[0] == "services":
             affected_services.add(split_directories[-1])
         else:
-            affected_services.update(inverted_graph[split_directories[-1]])
+            affected_services.update(inverted_graph.get(split_directories[-1], []))
     return affected_services
 
 if __name__ == "__main__":
