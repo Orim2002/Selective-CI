@@ -167,7 +167,6 @@ CMD ["python", "app.py"]
 ### 3. Add a `requirements.txt` to every service
 ```text
 flask
-pytest
 ```
 
 This file must exist at `services/<name>/requirements.txt` — the CI pipeline installs it before running tests.
