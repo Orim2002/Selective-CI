@@ -1,4 +1,4 @@
-# Monorepo Selective CI Optimizer
+# 🚀 Monorepo CI Optimizer
 
 A smart CI system that detects changed services in a monorepo and only runs relevant pipelines — drastically cutting build times.
 
@@ -62,7 +62,7 @@ monorepo/
 │   ├── auth/
 │   │   ├── service.yaml        ← dependency declaration
 │   │   ├── Dockerfile
-│   │   ├── requirements.txt
+│   │   ├── requirements.txt    ← flask, pytest
 │   │   └── tests/
 │   ├── payments/
 │   │   ├── service.yaml
@@ -80,7 +80,7 @@ monorepo/
 │   └── db-client/
 │       └── service.yaml
 ├── main.py                     ← CI detection engine
-├── requirements.txt
+├── requirements.txt            ← pyyaml (for main.py)
 └── .github/
     └── workflows/
         └── ci.yaml             ← GitHub Actions pipeline
@@ -164,14 +164,7 @@ COPY . .
 CMD ["python", "app.py"]
 ```
 
-### 3. Add a `requirements.txt` to every service
-```text
-flask
-```
-
-This file must exist at `services/<name>/requirements.txt` — the CI pipeline installs it before running tests.
-
-### 4. Add DockerHub secrets to your GitHub repository
+### 3. Add DockerHub secrets to your GitHub repository
 
 Go to **Settings → Secrets → Actions** and add:
 
@@ -180,9 +173,19 @@ Go to **Settings → Secrets → Actions** and add:
 | `DOCKERHUB_USERNAME` | Your DockerHub username |
 | `DOCKERHUB_TOKEN` | Your DockerHub access token |
 
+### 4. Add a `requirements.txt` to every service
+
+```text
+flask
+```
+
+This file must exist at `services/<name>/requirements.txt` — the CI pipeline installs it before running tests.
+
 ### 5. Push the workflow file
 
 Place `.github/workflows/ci.yaml` in your repository. The pipeline triggers automatically on every push.
+
+> **Important:** The `detect` job uses `fetch-depth: 0` in `actions/checkout` to ensure the full git history is available for `git diff`. Without this, GitHub Actions performs a shallow clone and the system falls back to rebuilding all services on every run.
 
 ### 6. Verify it's working
 
@@ -200,6 +203,7 @@ Push a commit that changes only one service. In the **Actions** tab you should s
 | No services affected | Matrix is empty → `test` and `build` jobs are skipped cleanly |
 | `main.py` crashes | Outputs `[]` → pipeline skips safely instead of erroring |
 | Lib change | Propagates through dependency graph to all dependent services |
+| Shallow clone in CI (no git history) | `git diff` cannot detect changes — falls back to rebuilding everything. Fixed with `fetch-depth: 0` in `actions/checkout` |
 
 ---
 
