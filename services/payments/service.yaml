@@ -1,0 +1,4 @@
+name: payments
+dependencies:
+  - db-client
+  - shared-utils
