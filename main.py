@@ -33,7 +33,7 @@ def invert_graph(graph: dict) -> dict:
 
 def get_changed_files():
     result = subprocess.run(
-        ["git", "diff", "--name-only", "HEAD~1", "HEAD"],
+        ["git", "diff", "--name-only", "origin/master", "HEAD"],
         capture_output=True, text=True
     )
     if result.returncode != 0:
