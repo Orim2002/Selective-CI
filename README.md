@@ -62,7 +62,7 @@ monorepo/
 │   ├── auth/
 │   │   ├── service.yaml        ← dependency declaration
 │   │   ├── Dockerfile
-│   │   ├── requirements.txt    ← flask, pytest
+│   │   ├── requirements.txt
 │   │   └── tests/
 │   ├── payments/
 │   │   ├── service.yaml
@@ -80,10 +80,10 @@ monorepo/
 │   └── db-client/
 │       └── service.yaml
 ├── main.py                     ← CI detection engine
-├── requirements.txt            ← pyyaml (for main.py)
+├── requirements.txt
 └── .github/
     └── workflows/
-        └── ci.yaml             ← GitHub Actions pipeline
+        └── workflow.yaml
 ```
 
 ---
