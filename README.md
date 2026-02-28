@@ -1,4 +1,4 @@
-# 🚀 Monorepo CI Optimizer
+# Monorepo CI Optimizer
 
 A smart CI system that detects changed services in a monorepo and only runs relevant pipelines — drastically cutting build times.
 
